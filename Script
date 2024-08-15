@@ -1,0 +1,22 @@
+function onEdit(e) {
+  var sheet = e.source.getActiveSheet();
+  var range = e.range;
+  var formula = range.getFormula();
+
+  // Clear previous highlights
+  sheet.getActiveRangeList().setBackground(null);
+
+  if (formula) {
+    var formulaReferences = getCellReferences(formula);
+
+    // Highlight referenced cells
+    for (var i = 0; i < formulaReferences.length; i++) {
+      sheet.getRange(formulaReferences[i]).setBackground('#FFFF00'); // Yellow color
+    }
+  }
+}
+
+function getCellReferences(formula) {
+  var regex = /[A-Z]+\d+/g;
+  return formula.match(regex) || [];
+}
